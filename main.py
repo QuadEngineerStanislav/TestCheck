@@ -7,6 +7,9 @@ from dronekit import connect, VehicleMode, LocationGlobalRelative
 
 vehicle = connect('tcp:127.0.0.1:5760', wait_ready=True)
 
+print(vehicle.location.global_relative_frame)
+print(vehicle.system_status)
+time.sleep(20)
 def arm_and_takeoff(aTargetAltitude):
 
     print("Basic pre-arm checks")
@@ -34,16 +37,21 @@ def arm_and_takeoff(aTargetAltitude):
         time.sleep(1)
 
 
-arm_and_takeoff(1)
+arm_and_takeoff(2)
 
 print("Set default/target airspeed to 3")
 vehicle.airspeed = 3
 
-print("Going towards first point for 30 seconds ...")
-point = LocationGlobalRelative(50.194884, 39.573052, 1)
+print("Go target!")
+point = LocationGlobalRelative(50.194884, 39.573052, 2)
 vehicle.simple_goto(point)
-time.sleep(30)
+time.sleep(2)
+while vehicle.airspeed > 0.1:
+   print ("Speed: %s" % vehicle.airspeed)
+   print(" Altitude: ", vehicle.location.global_relative_frame.alt)
+   time.sleep(1)
 
+time.sleep(5)
 print("Returning to Launch")
 vehicle.mode = VehicleMode("RTL")
 

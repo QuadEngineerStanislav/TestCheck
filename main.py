@@ -5,7 +5,7 @@ from __future__ import print_function
 import time
 from dronekit import connect, VehicleMode, LocationGlobalRelative
 
-vehicle = connect('tcp:127.0.0.1:5760', wait_ready=True)
+vehicle = connect('/dev/ttyAMA0', baud=57600, wait_ready=True)
 
 print(vehicle.location.global_relative_frame)
 print(vehicle.system_status)
